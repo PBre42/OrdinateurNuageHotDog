@@ -1,11 +1,37 @@
 import boto3
 #connect to server and send request
-sqs = boto3.resource('sqs')
-queue = sqs.create_queue(QueueName='requestQueue',Attributes={'DelaySeconds' : '5'})
+sqs = boto3.client('sqs')
 
+queueOut = sqs.create_queue(
+    QueueName='requestQueue',
+    Attributes={
+        "DelaySeconds" : "0",
+        "VisibilityTimeout" : "60"}
+    )
+    
+qURL = sqs.get_queue_url(
+    QueueName='requestQueue',
+)
+response = sqs.send_message(
+    QueueUrl=qURL["QueueUrl"],
+    MessageBody="hi"
+)  
+print(response)
+queueIn = sqs.get_queue_by_name(QueueName='response')
 
-print("Enter values (space separated):")
-input = input()
-queueOut = sqs.get_queue_by_name(QueueName='requestQueue')
-queueOut.send_message(MessageBody=input)
+#condition pour attendre un message (boucle)
+while 1:
+    print("Enter values (space separated):")
+    inputs = input().split(' ')
+    #vérifier inputs
+    
 
+    #remplir la queue
+    queueOut.send()
+    
+    #attendre la réponse
+    reponse = queueOut.get_messages()
+
+    #parser la queue 
+    
+    #afficher valeurs
