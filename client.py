@@ -8,16 +8,12 @@ queueOut = sqs.create_queue(
         "DelaySeconds" : "0",
         "VisibilityTimeout" : "60"}
     )
-    
+
 qURL = sqs.get_queue_url(
     QueueName='requestQueue',
 )
-response = sqs.send_message(
-    QueueUrl=qURL["QueueUrl"],
-    MessageBody="hi"
-)  
-print(response)
-queueIn = sqs.get_queue_by_name(QueueName='response')
+
+#queueIn = sqs.get_queue_by_name(QueueName='response')
 
 #condition pour attendre un message (boucle)
 while 1:
@@ -27,11 +23,13 @@ while 1:
     
 
     #remplir la queue
-    queueOut.send()
+    sqs.send_message(
+        QueueUrl=qURL["QueueUrl"],
+        MessageBody=str(inputs)
+    )  
     
     #attendre la réponse
-    reponse = queueOut.get_messages()
-
+    
     #parser la queue 
     
     #afficher valeurs
