@@ -2,7 +2,7 @@ import boto3
 import random
 #launch the server and wait for requests
 ec2 = boto3.client('ec2')
-sqs = boto3.resource('sqs')
+sqs = boto3.client('sqs')
 s3 = boto3.resource('s3')
 bucketname = 'photoshotdogs'
 bucket = s3.Bucket(bucketname)
@@ -13,7 +13,14 @@ for obj in bucket.objects.all():
 
 clienturls = random.sample(urls,4)
 
-#queue = sqs.create_queue(QueueName='responseQueue', Attributes={'Min','Max','Mean','Median'})
+print(clienturls)
+#queue = sqs.create_queue(QueueName='photos', Attributes={'Url'})
+response = sqs.send_message(
+        QueueUrl="photosHotDogs",
+        MessageBody=' '.join(clienturls)
+    )  
+
+
 #inQueue = sqs.get_queue_by_name(QueueName='requestQueue')
 
 #print(inQueue.attributes.get('Message'))
