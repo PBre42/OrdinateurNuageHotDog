@@ -29,7 +29,11 @@ while 1:
     )  
     
     #attendre la réponse
-    
+    reponse = sqs.receive_message(
+        QueueUrl=qURL["QueueUrl"]
+    )
+    print(reponse['Body'])
+
     #parser la queue 
     
     #afficher valeurs
