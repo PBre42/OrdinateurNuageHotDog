@@ -2,20 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Concentrez vous.</title>
 </head>
 <body>
-<h1>Send your images in a AWS S3 Bucket</h1>
+<h1>Is this a Hot-Dog ?</h1>
 <div class ="container">
     <div>
         <form method="POST" action="/upload" enctype="multipart/form-data">
             <input type="file" name="file" class="form-control" autocomplete="off" required>
-            <input type="submit" value="Submit" class="btn btn-info">
+            <input type="submit" value="Submit" class="btn btn-info"><br>
+            <input id="img2" type="image" src={{list_to_send[0]}} onclick="clicked(this)"/>
+            <input id="img2" type="image" src={{list_to_send[1]}} onclick="clicked(this)"/>
+            <input id="img3" type="image" src={{list_to_send[2]}} onclick="clicked(this)"/>
+            <input id="img4" type="image" src={{list_to_send[3]}} onclick="clicked(this)"/>
         </form>
 
     </div>
 </div>
 
+<script>
+    function clicked(elem) {
+        if(elem.style.border == ''){
+            //Selected ==> hot-dog
+            elem.style.border = "3px solid blue";
+        }else{
+            elem.style.border = '';
+        }        
+    }
 
+</script>
 </body>
 </html>
